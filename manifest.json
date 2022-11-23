@@ -1,0 +1,5 @@
+{
+    "type": "runtime",
+    "alias": "k3d",
+    "entrypoint": "./src/entrypoint.sh"
+}

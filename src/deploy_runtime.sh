@@ -15,13 +15,12 @@
 
 if ! helm status vehicleappruntime &> /dev/null
 then
-    ROOT_DIRECTORY=$( realpath "$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )/../../../.." )
+    # ROOT_DIRECTORY=$( realpath "$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )/../../../.." )
+    ROOT_DIRECTORY=$VELOCITAS_WORKSPACE_DIR
     DEPENDENCIES=$(cat $ROOT_DIRECTORY/app/AppManifest.json | jq .[].dependencies)
     SERVICES=$(echo $DEPENDENCIES | jq '.services')
 
-    # Get Data from AppManifest.json and save to ENV
-    UTILS_DIRECTORY="$ROOT_DIRECTORY/.vscode/scripts/runtime/utils"
-    source $UTILS_DIRECTORY/get-appmanifest-data.sh
+    DEPLOY_DIR="$(dirname "$SCRIPT_DIR")/src/deploy/runtime"
 
     docker pull $DATABROKER_IMAGE:$DATABROKER_TAG
     docker tag $DATABROKER_IMAGE:$DATABROKER_TAG localhost:12345/vehicledatabroker:$DATABROKER_TAG
@@ -49,8 +48,8 @@ then
 
     # We set the tag to the version from the variables above in the script. This overwrites the default values in the values-file.
     helm install vehicleappruntime \
-        $ROOT_DIRECTORY/deploy/runtime/k3d/helm \
-        --values $ROOT_DIRECTORY/deploy/runtime/k3d/helm/values.yaml \
+        $DEPLOY_DIR/helm \
+        --values $DEPLOY_DIR/helm/values.yaml \
         --set imageSeatService.tag=$SEATSERVICE_TAG \
         --set imageVehicleDataBroker.tag=$DATABROKER_TAG \
         --set imageFeederCan.tag=$FEEDERCAN_TAG \

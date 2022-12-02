@@ -1,5 +1,13 @@
 {
     "type": "runtime",
     "alias": "k3d",
-    "entrypoint": "./src/entrypoint.sh"
+    "entrypoint": "./src/start.sh",
+    "termination": "./src/stop.sh",
+    "variables": [
+        {
+            "name": "myVar",
+            "type": "string",
+            "description": "some basic description"
+        }
+    ]
 }

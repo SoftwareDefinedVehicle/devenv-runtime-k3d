@@ -20,7 +20,8 @@ then
     DEPENDENCIES=$(cat $ROOT_DIRECTORY/app/AppManifest.json | jq .[].dependencies)
     SERVICES=$(echo $DEPENDENCIES | jq '.services')
 
-    DEPLOY_DIR="$(dirname "$SCRIPT_DIR")/src/deploy/runtime"
+    SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+    CONFIG_DIR="$(dirname "$SCRIPT_DIR")/src/runtime/config"
 
     docker pull $DATABROKER_IMAGE:$DATABROKER_TAG
     docker tag $DATABROKER_IMAGE:$DATABROKER_TAG localhost:12345/vehicledatabroker:$DATABROKER_TAG
@@ -48,8 +49,8 @@ then
 
     # We set the tag to the version from the variables above in the script. This overwrites the default values in the values-file.
     helm install vehicleappruntime \
-        $DEPLOY_DIR/helm \
-        --values $DEPLOY_DIR/helm/values.yaml \
+        $CONFIG_DIR/helm \
+        --values $CONFIG_DIR/helm/values.yaml \
         --set imageSeatService.tag=$SEATSERVICE_TAG \
         --set imageVehicleDataBroker.tag=$DATABROKER_TAG \
         --set imageFeederCan.tag=$FEEDERCAN_TAG \

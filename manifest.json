@@ -1,13 +1,29 @@
 {
-    "type": "runtime",
     "alias": "k3d",
-    "entrypoint": "./src/start.sh",
-    "termination": "./src/stop.sh",
-    "variables": [
+    "components": [
         {
-            "name": "myVar",
-            "type": "string",
-            "description": "some basic description"
+            "type": "runtime",
+            "entrypoint": "./src/runtime/start.sh",
+            "termination": "./src/runtime/stop.sh",
+            "variables": [
+                {
+                    "name": "myVar",
+                    "type": "string",
+                    "description": "some basic description"
+                }
+            ]
+        },
+        {
+            "type": "deployment",
+            "entrypoint": "./src/deployment/start.sh",
+            "termination": "./src/deployment/stop.sh",
+            "variables": [
+                {
+                    "name": "myVar",
+                    "type": "string",
+                    "description": "some basic description"
+                }
+            ]
         }
     ]
 }

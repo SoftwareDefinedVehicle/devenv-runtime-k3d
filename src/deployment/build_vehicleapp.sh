@@ -12,15 +12,13 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# ROOT_DIRECTORY=$( realpath "$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )/../../../.." )
-ROOT_DIRECTORY=$VELOCITAS_WORKSPACE_DIR
-APP_NAME=$(cat $ROOT_DIRECTORY/app/AppManifest.json | jq .[].Name | tr -d '"' | tr '[:upper:]' '[:lower:]')
-DOCKERFILE_FILE="$(cat $ROOT_DIRECTORY/app/AppManifest.json | jq .[].Dockerfile | tr -d '"')"
+APP_NAME=$(cat $VELOCITAS_WORKSPACE_DIR/app/AppManifest.json | jq .[].Name | tr -d '"' | tr '[:upper:]' '[:lower:]')
+DOCKERFILE_FILE="$(cat $VELOCITAS_WORKSPACE_DIR/app/AppManifest.json | jq .[].Dockerfile | tr -d '"')"
 
 if [ -n "$HTTP_PROXY" ]; then
     echo "Building image with proxy configuration"
 
-    cd $ROOT_DIRECTORY
+    cd $VELOCITAS_WORKSPACE_DIR
     DOCKER_BUILDKIT=1 docker build \
     -f $DOCKERFILE_FILE \
     --progress=plain \
@@ -35,6 +33,6 @@ else
     echo "Building image without proxy configuration"
     # Build, push vehicleapi image - NO PROXY
 
-    cd $ROOT_DIRECTORY
+    cd $VELOCITAS_WORKSPACE_DIR
     DOCKER_BUILDKIT=1 docker build -f $DOCKERFILE_FILE --progress=plain -t localhost:12345/$APP_NAME:local . --no-cache
 fi

@@ -16,7 +16,7 @@
 DAPR_RUNTIME=$(cat $VELOCITAS_WORKSPACE_DIR/app/AppManifest.json | jq .[].dependencies.dapr.runtime.version | tr -d '"')
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-CONFIG_DIR="$(dirname "$SCRIPT_DIR")/src/runtime/config"
+CONFIG_DIR="$(dirname "$SCRIPT_DIR")/runtime/config"
 
 if ! k3d registry get k3d-registry.localhost &> /dev/null
 then

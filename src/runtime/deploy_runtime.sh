@@ -21,7 +21,7 @@ then
     SERVICES=$(echo $DEPENDENCIES | jq '.services')
 
     SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-    CONFIG_DIR="$(dirname "$SCRIPT_DIR")/src/runtime/config"
+    CONFIG_DIR="$(dirname "$SCRIPT_DIR")/runtime/config"
 
     docker pull $DATABROKER_IMAGE:$DATABROKER_TAG
     docker tag $DATABROKER_IMAGE:$DATABROKER_TAG localhost:12345/vehicledatabroker:$DATABROKER_TAG

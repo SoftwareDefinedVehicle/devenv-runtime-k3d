@@ -17,7 +17,7 @@ APP_PORT=$(cat $VELOCITAS_WORKSPACE_DIR/app/AppManifest.json | jq .[].Port | tr 
 APP_REGISTRY="k3d-registry.localhost:12345"
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-CONFIG_DIR="$(dirname "$SCRIPT_DIR")/src/deployment/config"
+CONFIG_DIR="$(dirname "$SCRIPT_DIR")/deployment/config"
 
 docker push localhost:12345/$APP_NAME:local
 
